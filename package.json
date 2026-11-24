@@ -1,0 +1,49 @@
+{
+  "name": "tap-marketplace-starter-kit",
+  "version": "0.1.0",
+  "description": "Reference TAP marketplace implementing post→claim→submit→accept with escrow, verified-worker gates, and OUSD/402 payments",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:studio": "drizzle-kit studio",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "tap",
+    "visa-cli",
+    "marketplace",
+    "verified-agents",
+    "mpp",
+    "ousd"
+  ],
+  "author": "Harish Kotra",
+  "license": "MIT",
+  "dependencies": {
+    "@hono/node-server": "^2.1.11",
+    "drizzle-orm": "^0.33.0",
+    "hono": "^4.5.0",
+    "pino": "^9.0.0",
+    "pino-pretty": "^11.2.0",
+    "postgres": "^3.4.4",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "@types/uuid": "^9.0.0",
+    "drizzle-kit": "^0.24.0",
+    "eslint": "^9.0.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

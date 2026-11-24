@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tap-marketplace-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tap_marketplace
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tap-marketplace-app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/tap_marketplace
+      - PORT=3000
+      - PUBLIC_ORIGIN=http://localhost:3000
+      - REGISTRY_ORIGIN=https://auth.visacli.sh
+      - ACCEPTED_TRIDS=40010030273
+      - MOCK_PAYMENTS=true
+      - LOG_LEVEL=debug
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
